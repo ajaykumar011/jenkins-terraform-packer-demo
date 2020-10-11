@@ -88,12 +88,12 @@ pipeline {
         }
 
     }
-
+}
     post {
             always {
                 echo 'One way or another, I have finished'
                 // deleteDir() /* delete the working dir normally workspace */
-                cleanWs() /* clean up workspace */
+                //cleanWs() /* clean up workspace */
                 //archiveArtifacts artifacts: 'targetbuild-*.zip', followSymlinks: false, onlyIfSuccessful: true
                 }
         
@@ -110,13 +110,14 @@ pipeline {
         
             failure {
                 echo 'delete me I am of no use'
+                cleanWs()
                 //  mail to: 'ajay011.sharma@hotmail.com',
                 //  cc: 'macme.tang@gmail.com',
                 //  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                 //  body: "Something is wrong with ${env.BUILD_URL}"
                 }
             changed {
-             echo 'Things were different before...'
+                echo 'Things were different before...'
                 }   
         }
 }
