@@ -21,7 +21,7 @@
   },
   {
     "type": "shell",
-    "scripts": [  "scripts/deploy.sh"   ],
+    "scripts": [  "packer-deploy.sh"   ],
     "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
     "pause_before": "10s"
   }]
