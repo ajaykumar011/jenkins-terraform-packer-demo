@@ -35,8 +35,8 @@ pipeline {
                     // Get the Terraform tool.
                     //def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
                     sh 'packer --version'
-                    sh 'chmod +x packer-build-ami.sh'
-                    sh './packer-build-ami.sh'
+                    sh 'sudo chmod +x packer-build-ami.sh'
+                    sh 'sudo ./packer-build-ami.sh'
                 }
              }
         }
@@ -57,8 +57,8 @@ pipeline {
          steps {
             //dir('dev')
             //    {
-                sh 'chmod +x jenkins-run-terraform.sh'
-                sh './jenkins-run-terraform.sh'
+                sh 'sudo chmod +x jenkins-run-terraform.sh'
+                sh 'sudo ./jenkins-run-terraform.sh'
               //  }
             }
         }

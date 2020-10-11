@@ -1,8 +1,8 @@
 #!/bin/bash -xe
 
 ## Packer Log to be stored in file too ##
-
-exec > >(tee /tmp/packer-script.log|logger -t packer-script -s 2>/dev/console) 2>&1
+#If you want to log the script output
+#exec > >(tee /tmp/packer-script.log|logger -t packer-script -s 2>/dev/console) 2>&1
 
 AWS_REGION="us-east-1"
 
