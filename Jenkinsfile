@@ -109,6 +109,7 @@ pipeline {
                 }
         
             failure {
+                echo 'delete me I am of no use'
                 //  mail to: 'ajay011.sharma@hotmail.com',
                 //  cc: 'macme.tang@gmail.com',
                 //  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
