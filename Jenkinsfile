@@ -20,7 +20,7 @@ pipeline {
                 script{
                     //git branch: 'Your Branch name', credentialsId: 'Your crendiatails', url: ' Your BitBucket Repo URL '
                     // Branch name is master in this repo
-                    git branch: 'master', credentialsId: 'github-cred', url: 'https://github.com/ajaykumar011/jenkins-terraform-pipeline-test/'
+                    git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/ajaykumar011/jenkins-terraform-packer-demo/'
                     echo 'Pulling... ' + env.GIT_BRANCH
                     sh 'printenv'
                    //sh "ls -la ${pwd()}"  
@@ -34,9 +34,9 @@ pipeline {
                 script {
                     // Get the Terraform tool.
                     //def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
-                    def tfHome = tool name: 'Terraform'
-                    env.PATH = "${tfHome}:${env.PATH}"
-                    sh 'terraform --version'
+                    sh 'packer --version'
+                    sh 'chmod +x packer-build-ami.sh'
+                    sh './packer-build-ami.sh'
                 }
              }
         }
@@ -57,10 +57,8 @@ pipeline {
          steps {
             //dir('dev')
             //    {
-                sh 'terraform init'
-                sh 'terraform plan -out=plan'
-                // sh 'terraform destroy -auto-approve'
-                sh 'terraform apply plan'
+                sh 'chmod +x jenkins-run-terraform.sh'
+                sh './jenkins-run-terraform.sh'
               //  }
             }
         }
@@ -78,6 +76,9 @@ pipeline {
             steps {
                 echo "Hello, ${PERSON}, nice to meet you."
                 sh 'terraform destroy -auto-approve'
+                sh 'SNAPSHOT_ID=`aws ec2 describe-images --image-ids $(<this-ami.txt) --region=us-east-1 | grep SnapshotId | tr "/" " " | awk '{print $2}' | sed -e 's/"//g' | sed -e 's/,$//'`'
+                sh 'aws ec2 deregister-image --image-id $(<this-ami.txt)'
+                sh 'aws ec2 delete-snapshot --snapshot-id ${SNAPSHOT_ID}'
                 }
             when { 
                 environment name: 'INFRA-DEL', value: 'Yes'
