@@ -76,9 +76,8 @@ pipeline {
             steps {
                 echo "Hello, ${PERSON}, nice to meet you."
                 sh 'terraform destroy -auto-approve'
-                sh 'SNAPSHOT_ID=`aws ec2 describe-images --image-ids $(<this-ami.txt) --region=us-east-1 | grep SnapshotId | tr "/" " " | awk '{print $2}' | sed -e 's/"//g' | sed -e 's/,$//'`'
                 sh 'aws ec2 deregister-image --image-id $(<this-ami.txt)'
-                sh 'aws ec2 delete-snapshot --snapshot-id ${SNAPSHOT_ID}'
+                sh 'aws ec2 delete-snapshot --snapshot-id $(<this-ami.txt)'
                 }
             when { 
                 environment name: 'INFRA-DEL', value: 'Yes'
