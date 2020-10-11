@@ -78,6 +78,7 @@ pipeline {
             steps {
                 echo "Hello, ${PERSON}, nice to meet you."
                 sh 'terraform destroy -auto-approve'
+                sh 'chmod +x sh packer-destory.sh'
                 sh 'sudo sh packer-destory.sh'
             }
             when { 
