@@ -35,7 +35,7 @@ pipeline {
                     // Get the Terraform tool.
                     //def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
                     sh 'packer --version'
-                    sh 'chmod +x packer-build-ami.sh'
+                    sh 'sudo chmod +x packer-build-ami.sh'
                     echo 'I am Packer here'
                     sh 'sudo ./packer-build-ami.sh'
                     
@@ -88,4 +88,35 @@ pipeline {
         }
 
     }
+
+    post {
+            always {
+                echo 'One way or another, I have finished'
+                // deleteDir() /* delete the working dir normally workspace */
+                cleanWs() /* clean up workspace */
+                //archiveArtifacts artifacts: 'targetbuild-*.zip', followSymlinks: false, onlyIfSuccessful: true
+                }
+        
+            success {
+                // echo 'Success'
+                // slackSend channel: '#jenkins-builds',
+                // color: 'good',
+                // message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+                }
+                  
+            unstable {
+                echo 'I am unstable :/'
+                }
+        
+            failure {
+                //  mail to: 'ajay011.sharma@hotmail.com',
+                //  cc: 'macme.tang@gmail.com',
+                //  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                //  body: "Something is wrong with ${env.BUILD_URL}"
+                }
+            changed {
+             echo 'Things were different before...'
+                }   
+        }
 }
+
