@@ -36,7 +36,9 @@ pipeline {
                     //def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
                     sh 'packer --version'
                     sh 'sudo chmod +x packer-build-ami.sh'
+                    echo "I am Packer here"
                     sh 'sudo ./packer-build-ami.sh'
+                    
                 }
              }
         }
