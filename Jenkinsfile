@@ -78,9 +78,8 @@ pipeline {
             steps {
                 echo "Hello, ${PERSON}, nice to meet you."
                 sh 'terraform destroy -auto-approve'
-                sh 'aws ec2 deregister-image --image-id $(<this-ami.txt)'
-                sh 'aws ec2 delete-snapshot --snapshot-id $(<this-ami.txt)'
-                }
+                sh 'sudo packer-destory.sh'
+            }
             when { 
                 environment name: 'INFRA-DEL', value: 'Yes'
             }
@@ -110,7 +109,7 @@ pipeline {
         
             failure {
                 echo 'delete me I am of no use'
-                cleanWs()
+                //cleanWs()
                 //  mail to: 'ajay011.sharma@hotmail.com',
                 //  cc: 'macme.tang@gmail.com',
                 //  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
